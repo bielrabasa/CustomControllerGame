@@ -10,10 +10,10 @@ void setup() {
 }
 
 void loop() {
-  //Serial.println("Hello, world!");
-  //delay(100);
+  Serial.println("Hello, world!");
+  delay(100);
 
-  if(Serial.available() > 0){
+  /*if(Serial.available() > 0){
     
     while(Serial.peek() == 'L'){
       Serial.read();
@@ -28,7 +28,7 @@ void loop() {
     }
   }
 
-  ledCheck();
+  ledCheck();*/
 }
 
 void ledCheck(){

@@ -4,7 +4,7 @@ using System;
 
 public class ArduinoConnection : MonoBehaviour
 {
-    SerialPort sp = new SerialPort("COM6", 9600);
+    SerialPort sp = new SerialPort("COM3", 9600);
     bool isStreaming = false;
 
     private void Start()
