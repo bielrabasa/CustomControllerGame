@@ -1,7 +1,10 @@
 //librerias para controlar el giroscopio
-#include "I2Cdev/I2Cdev.h"
-#include <Wire.h>
-//#include "MPU6050/MPU6050.h"
+#include "I2Cdev.h"
+#include "MPU6050.h"
+//#include "Wire.h"
+
+// Declarar Sensor
+MPU6050 sensor;
 
 // Valores RAW (sin procesar) del acelerometro y giroscopio en los ejes x,y,z
 int ax, ay, az;
