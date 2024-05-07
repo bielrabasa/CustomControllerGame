@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using UnityEngine;
 
 public class RandomCity : MonoBehaviour
 {
     public int size;
+    public float buildingWidth;
+    public float buildingWidthRandomiser;
     public float buildingSeparation;
     public float height;
     public float floorHeight;
@@ -28,7 +31,9 @@ public class RandomCity : MonoBehaviour
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
                 float h = Random.Range(0, height) + floorHeight;
-                cube.transform.localScale = new Vector3(1, h, 1);
+                float w = buildingWidth + Random.Range(-buildingWidthRandomiser, buildingWidthRandomiser);
+                float d = buildingWidth + Random.Range(-buildingWidthRandomiser, buildingWidthRandomiser);
+                cube.transform.localScale = new Vector3(w, h, d);
 
                 Vector3 pos = new Vector3(i * buildingSeparation, h / 2f, j * buildingSeparation);
                 pos.x += Random.Range(-vibration, vibration);

@@ -29,8 +29,10 @@ public class ArduinoConnection : MonoBehaviour
         sp.Close();
     }
 
-    string ReadSerialPort(int timeout = 50)
+    public string ReadSerialPort(int timeout = 50)
     {
+        if (!isStreaming) return null;
+
         string message;
         sp.ReadTimeout = timeout;
 
@@ -45,7 +47,7 @@ public class ArduinoConnection : MonoBehaviour
         }
 
     }
-    void Update()
+    /*void Update()
     {
         if (isStreaming)
         {
@@ -60,16 +62,15 @@ public class ArduinoConnection : MonoBehaviour
                 SwitchLEDState();
             }
         }
-    }
-
+    }*/
 
     //__________________________________
 
-    bool ledOn = false;
+    /*bool ledOn = false;
 
     void SwitchLEDState()
     {
         ledOn = !ledOn;
         sp.WriteLine("L" + (ledOn ? "1" : "0"));
-    }
+    }*/
 }

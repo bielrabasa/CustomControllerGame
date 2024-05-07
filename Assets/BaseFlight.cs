@@ -7,16 +7,20 @@ public class BaseFlight : MonoBehaviour
 {
     public float startVelocity = 10;
 
-    public float steerForce = 20;
-    public float turnForce = 10;
+    //public float steerForce = 20;
+    //public float turnForce = 10;
 
     Rigidbody rb;
-    Vector3 rot;
+    Vector3 handVec = Vector3.down;
+    //Vector3 rot;
+
+    ArduinoConnection arduino;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rot = transform.eulerAngles;
+        arduino = FindObjectOfType<ArduinoConnection>();
+        //rot = transform.eulerAngles;
 
         rb.velocity = Vector3.forward * startVelocity;
     }
@@ -24,7 +28,7 @@ public class BaseFlight : MonoBehaviour
 
     void Update()
     {
-        rot.x += steerForce * Input.GetAxis("Vertical") * Time.deltaTime;
+        /*rot.x += steerForce * Input.GetAxis("Vertical") * Time.deltaTime;
         rot.x = Mathf.Clamp(rot.x, -30, 45);
 
         float axisH = Input.GetAxis("Horizontal");
@@ -34,9 +38,17 @@ public class BaseFlight : MonoBehaviour
         rot.z += -turnForce * axisH * Time.deltaTime;
         rot.z = Mathf.Clamp(rot.z, -10, 10);
 
-
-
-        transform.rotation = Quaternion.Euler(rot);
+        transform.rotation = Quaternion.Euler(rot);*/
+        string data = arduino.ReadSerialPort();
+        Debug.Log(data);
+        if (data != null){
+            string[] d = data.Split('\n');
+            if(d[0] == "Acceleration")
+            {
+                handVec = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3]));
+                transform.up = -handVec;
+            }
+        }
 
         float dot = Vector3.Dot(transform.forward, Vector3.up);
         rb.velocity = transform.forward * (rb.velocity.magnitude - dot * Time.deltaTime);
