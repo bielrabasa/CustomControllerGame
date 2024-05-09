@@ -3,8 +3,8 @@ int ledPin = 13;
 boolean LED = false;
 
 void setup() {
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
+  //pinMode(ledPin, OUTPUT);
+  //digitalWrite(ledPin, LOW);
   
   Serial.begin(9600);
 }

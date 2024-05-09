@@ -1,14 +1,21 @@
 using UnityEngine;
 using System.IO.Ports;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 public class ArduinoConnection : MonoBehaviour
 {
-    SerialPort sp = new SerialPort("COM3", 9600);
+    public string port;
+    SerialPort sp;
     bool isStreaming = false;
+
+    //To Read info from sensor
+    [HideInInspector] public string data;
 
     private void Start()
     {
+        sp = new SerialPort(port, 9600);
+
         OpenConnection();
     }
 
@@ -22,6 +29,8 @@ public class ArduinoConnection : MonoBehaviour
         isStreaming = true;
         sp.ReadTimeout = 100;
         sp.Open();
+
+        Debug.Log("Port opened!");
     }
 
     void CloseConnection()
@@ -29,12 +38,9 @@ public class ArduinoConnection : MonoBehaviour
         sp.Close();
     }
 
-    public string ReadSerialPort(int timeout = 50)
+    string ReadSerialPort()
     {
-        if (!isStreaming) return null;
-
         string message;
-        sp.ReadTimeout = timeout;
 
         try
         {
@@ -47,30 +53,18 @@ public class ArduinoConnection : MonoBehaviour
         }
 
     }
-    /*void Update()
+    
+    void Update()
     {
         if (isStreaming)
         {
             string value = ReadSerialPort();
-            if (value != null)
-            {
-                Debug.Log(value);
-            }
+            
+            Debug.Log(value);
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            /*if (value != null)
             {
-                SwitchLEDState();
-            }
+            }*/
         }
-    }*/
-
-    //__________________________________
-
-    /*bool ledOn = false;
-
-    void SwitchLEDState()
-    {
-        ledOn = !ledOn;
-        sp.WriteLine("L" + (ledOn ? "1" : "0"));
-    }*/
+    }
 }

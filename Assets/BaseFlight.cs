@@ -39,10 +39,9 @@ public class BaseFlight : MonoBehaviour
         rot.z = Mathf.Clamp(rot.z, -10, 10);
 
         transform.rotation = Quaternion.Euler(rot);*/
-        string data = arduino.ReadSerialPort();
-        Debug.Log(data);
-        if (data != null){
-            string[] d = data.Split('\n');
+
+        if (arduino.data != null){
+            string[] d = arduino.data.Split('\n');
             if(d[0] == "Acceleration")
             {
                 handVec = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3]));

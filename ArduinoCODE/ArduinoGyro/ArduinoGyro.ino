@@ -43,7 +43,7 @@ void loop() {
   ReadAccVelAngular();
   //Calibration();
 
-  //delay(100);
+  delay(100);
 }
 
 void ReadAccVelAngular()
@@ -54,9 +54,9 @@ void ReadAccVelAngular()
 
   //Mostrar las lecturas separadas por un [tab]
   //Serial.print("a[x y z] g[x y z]:\t");
-  Serial.print("Acceleration\n");
-  Serial.print(ax); Serial.print("\n");
-  Serial.print(ay); Serial.print("\n");
+  Serial.print("Acceleration\t");
+  Serial.print(ax); Serial.print("\t");
+  Serial.print(ay); Serial.print("\t");
   Serial.print(az); Serial.print("\n");
   /*Serial.print(gx); Serial.print("\t");
   Serial.print(gy); Serial.print("\t");
