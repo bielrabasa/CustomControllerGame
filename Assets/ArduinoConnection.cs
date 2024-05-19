@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO.Ports;
 using System;
 using UnityEditor.Experimental.GraphView;
+using System.Threading;
 
 public class ArduinoConnection : MonoBehaviour
 {
@@ -9,14 +10,22 @@ public class ArduinoConnection : MonoBehaviour
     SerialPort sp;
     bool isStreaming = false;
 
+    Thread readingThread;
+
     //To Read info from sensor
-    [HideInInspector] public string data;
+    [HideInInspector] public Vector3 acceleration = Vector3.down;
 
     private void Start()
     {
         sp = new SerialPort(port, 9600);
 
         OpenConnection();
+
+        if (isStreaming)
+        {
+            readingThread = new Thread(ContinuousReading);
+            readingThread.Start();
+        }
     }
 
     private void OnDestroy()
@@ -44,6 +53,7 @@ public class ArduinoConnection : MonoBehaviour
 
         try
         {
+            sp.ReadTimeout = 150;
             message = sp.ReadLine();
             return message;
         }
@@ -54,17 +64,39 @@ public class ArduinoConnection : MonoBehaviour
 
     }
     
+    void ContinuousReading()
+    {
+        Debug.Log("Reading started!");
+
+        while(isStreaming)
+        {
+            string data = null;
+            try
+            {
+                data = ReadSerialPort();
+            }
+            catch
+            {
+                Debug.Log("Thread stopped!");
+                isStreaming = false;
+            }
+            
+            //Parse data to acc vector
+            if(data != null)
+            {
+                string[] d = data.Split(',');
+                if (d[0] == "Acceleration")
+                {
+                    acceleration = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
+                }
+            }
+        }
+    }
+
     void Update()
     {
-        if (isStreaming)
-        {
-            string value = ReadSerialPort();
-            
-            Debug.Log(value);
+        //if(Input.GetKeyDown(KeyCode.Return)) readingThread.Abort();
 
-            /*if (value != null)
-            {
-            }*/
-        }
+        //Debug.Log(acceleration);
     }
 }

@@ -11,7 +11,6 @@ public class BaseFlight : MonoBehaviour
     //public float turnForce = 10;
 
     Rigidbody rb;
-    Vector3 handVec = Vector3.down;
     //Vector3 rot;
 
     ArduinoConnection arduino;
@@ -40,14 +39,9 @@ public class BaseFlight : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(rot);*/
 
-        if (arduino.data != null){
-            string[] d = arduino.data.Split('\n');
-            if(d[0] == "Acceleration")
-            {
-                handVec = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3]));
-                transform.up = -handVec;
-            }
-        }
+        Vector3 acc = arduino.acceleration;
+        acc.x *= -1;
+        transform.forward = Vector3.Lerp(acc, transform.forward, 0.99f);
 
         float dot = Vector3.Dot(transform.forward, Vector3.up);
         rb.velocity = transform.forward * (rb.velocity.magnitude - dot * Time.deltaTime);

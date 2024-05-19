@@ -409,7 +409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1633950755
 Transform:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1686074300
 Transform:
   m_ObjectHideFlags: 0
@@ -596,4 +596,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   port: COM6
-  data: 
+  acceleration: {x: 0, y: 0, z: 1}

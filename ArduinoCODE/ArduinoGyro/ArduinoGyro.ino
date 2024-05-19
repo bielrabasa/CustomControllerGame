@@ -39,7 +39,6 @@ void setup() {
 }
 
 void loop() {
-  
   ReadAccVelAngular();
   //Calibration();
 
@@ -52,15 +51,10 @@ void ReadAccVelAngular()
   sensor.getAcceleration(&ax, &ay, &az);
   //sensor.getRotation(&gx, &gy, &gz);
 
-  //Mostrar las lecturas separadas por un [tab]
-  //Serial.print("a[x y z] g[x y z]:\t");
-  Serial.print("Acceleration\t");
-  Serial.print(ax); Serial.print("\t");
-  Serial.print(ay); Serial.print("\t");
-  Serial.print(az); Serial.print("\n");
-  /*Serial.print(gx); Serial.print("\t");
-  Serial.print(gy); Serial.print("\t");
-  Serial.println(gz);*/
+  Serial.print("Acceleration,");
+  Serial.print(ax); Serial.print(",");
+  Serial.print(ay); Serial.print(",");
+  Serial.println(az);
 }
 
 void SetCalibration()
