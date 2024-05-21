@@ -1,7 +1,9 @@
 using Microsoft.Win32;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseFlight : MonoBehaviour
 {
@@ -15,18 +17,23 @@ public class BaseFlight : MonoBehaviour
 
     ArduinoConnection arduino;
 
+    TMP_Text text;
+    bool playing = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         arduino = FindObjectOfType<ArduinoConnection>();
-        //rot = transform.eulerAngles;
+        playing = false;
 
-        rb.velocity = Vector3.forward * startVelocity;
+        text = FindObjectOfType<TMP_Text>();
+        StartCoroutine(Countdown());
     }
 
 
     void Update()
     {
+        if (!playing) return;
         /*rot.x += steerForce * Input.GetAxis("Vertical") * Time.deltaTime;
         rot.x = Mathf.Clamp(rot.x, -30, 45);
 
@@ -45,5 +52,18 @@ public class BaseFlight : MonoBehaviour
 
         float dot = Vector3.Dot(transform.forward, Vector3.up);
         rb.velocity = transform.forward * (rb.velocity.magnitude - dot * Time.deltaTime);
+    }
+
+    IEnumerator Countdown()
+    {
+        text.text = "Ready?";
+        yield return new WaitForSeconds(1);
+        text.text = "Set";
+        yield return new WaitForSeconds(1);
+        text.text = "GO";
+        rb.velocity = transform.forward * startVelocity;
+        playing = true;
+        yield return new WaitForSeconds(1);
+        text.text = "";
     }
 }

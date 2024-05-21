@@ -92,11 +92,4 @@ public class ArduinoConnection : MonoBehaviour
             }
         }
     }
-
-    void Update()
-    {
-        //if(Input.GetKeyDown(KeyCode.Return)) readingThread.Abort();
-
-        //Debug.Log(acceleration);
-    }
 }
