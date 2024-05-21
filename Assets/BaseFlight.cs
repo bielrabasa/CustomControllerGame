@@ -1,9 +1,7 @@
-using Microsoft.Win32;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BaseFlight : MonoBehaviour
 {
@@ -56,6 +54,8 @@ public class BaseFlight : MonoBehaviour
 
     IEnumerator Countdown()
     {
+        text.text = "";
+        yield return new WaitForSeconds(1);
         text.text = "Ready?";
         yield return new WaitForSeconds(1);
         text.text = "Set";
@@ -65,5 +65,27 @@ public class BaseFlight : MonoBehaviour
         playing = true;
         yield return new WaitForSeconds(1);
         text.text = "";
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        StartCoroutine(Restart());
+    }
+
+    IEnumerator Restart()
+    {
+        text.text = "Crash";
+        yield return new WaitForSeconds(1);
+        text.text = "Cras";
+        yield return new WaitForSeconds(0.2f);
+        text.text = "Cra";
+        yield return new WaitForSeconds(0.2f);
+        text.text = "Cr";
+        yield return new WaitForSeconds(0.2f);
+        text.text = "C";
+        yield return new WaitForSeconds(0.2f);
+        text.text = "";
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
