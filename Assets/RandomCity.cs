@@ -43,6 +43,8 @@ public class RandomCity : MonoBehaviour
                 cube.transform.parent = transform;
 
                 cube.GetComponent<Renderer>().material.color = colours.Evaluate((h - floorHeight) / height);
+
+                cube.transform.gameObject.tag = "Building";
             }
         }
     }
