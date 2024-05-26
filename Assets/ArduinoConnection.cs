@@ -104,15 +104,17 @@ public class ArduinoConnection : MonoBehaviour
             if(data != null)
             {
                 string[] d = data.Split(',');
+                if (d.Length != 8) continue;
+
                 if (d[0] == "Acceleration")
                 {
                     acceleration = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
                 }
 
-                if (d[0] == "Rotation")
+                if (d[4] == "Rotation")
                 {
-                    Debug.Log("ENTRANF");
-                    rotation = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
+                    rotation = new Vector3(float.Parse(d[5]), float.Parse(d[6]), float.Parse(d[7])).normalized;
+                    Debug.Log(rotation);
                 }
             }
         }
