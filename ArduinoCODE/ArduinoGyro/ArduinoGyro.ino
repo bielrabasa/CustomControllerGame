@@ -49,12 +49,17 @@ void ReadAccVelAngular()
 {
   // Leer las aceleraciones y velocidades angulares
   sensor.getAcceleration(&ax, &ay, &az);
-  //sensor.getRotation(&gx, &gy, &gz);
+  sensor.getRotation(&gx, &gy, &gz);
 
   Serial.print("Acceleration,");
   Serial.print(ax); Serial.print(",");
   Serial.print(ay); Serial.print(",");
-  Serial.println(az);
+  Serial.println(az); Serial.print(",");
+
+  Serial.print("Rotation,");
+  Serial.print(gx); Serial.print(",");
+  Serial.print(gy); Serial.print(",");
+  Serial.println(gz);
 }
 
 void SetCalibration()
