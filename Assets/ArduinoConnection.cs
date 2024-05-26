@@ -13,12 +13,12 @@ public class ArduinoConnection : MonoBehaviour
     Thread readingThread;
 
     //To Read info from sensor
-    [HideInInspector] public Vector3 acceleration = Vector3.down;
+    [HideInInspector] public Vector3 acceleration = Vector3.forward;
 
     private void Start()
     {
         sp = new SerialPort(port, 9600);
-
+        
         OpenConnection();
 
         if (isStreaming)
@@ -28,6 +28,18 @@ public class ArduinoConnection : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (isStreaming) return;
+
+        acceleration = Vector3.forward;
+        if (Input.GetKey(KeyCode.RightArrow)) acceleration.x--;
+        if (Input.GetKey(KeyCode.LeftArrow)) acceleration.x++;
+        if (Input.GetKey(KeyCode.UpArrow)) acceleration.y--;
+        if (Input.GetKey(KeyCode.DownArrow)) acceleration.y++;
+        acceleration.Normalize();
+    }
+
     private void OnDestroy()
     {
         CloseConnection();
@@ -35,11 +47,17 @@ public class ArduinoConnection : MonoBehaviour
 
     void OpenConnection()
     {
-        isStreaming = true;
-        sp.ReadTimeout = 100;
-        sp.Open();
-
-        Debug.Log("Port opened!");
+        try
+        {
+            sp.ReadTimeout = 100;
+            sp.Open();
+            isStreaming = true;
+            Debug.Log("Port opened!");
+        }
+        catch
+        {
+            Debug.Log(port + " not connected, keyboard mode connected!");
+        }
     }
 
     void CloseConnection()
