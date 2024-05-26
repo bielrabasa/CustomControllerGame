@@ -14,6 +14,7 @@ public class ArduinoConnection : MonoBehaviour
 
     //To Read info from sensor
     [HideInInspector] public Vector3 acceleration = Vector3.forward;
+    [HideInInspector] public Vector3 rotation;
 
     private void Start()
     {
@@ -106,6 +107,12 @@ public class ArduinoConnection : MonoBehaviour
                 if (d[0] == "Acceleration")
                 {
                     acceleration = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
+                }
+
+                if (d[0] == "Rotation")
+                {
+                    Debug.Log("ENTRANF");
+                    rotation = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
                 }
             }
         }

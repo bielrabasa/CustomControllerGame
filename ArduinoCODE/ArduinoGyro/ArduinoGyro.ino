@@ -54,7 +54,7 @@ void ReadAccVelAngular()
   Serial.print("Acceleration,");
   Serial.print(ax); Serial.print(",");
   Serial.print(ay); Serial.print(",");
-  Serial.println(az); Serial.print(",");
+  Serial.print(az); Serial.print(",");
 
   Serial.print("Rotation,");
   Serial.print(gx); Serial.print(",");
