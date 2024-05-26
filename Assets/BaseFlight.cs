@@ -13,7 +13,7 @@ public class BaseFlight : MonoBehaviour
     public float planeSpeed;
     public float rotSpeed;
 
-    TMP_Text text;
+    public TMP_Text text;
     bool playing = false;
 
     void Start()
@@ -23,7 +23,6 @@ public class BaseFlight : MonoBehaviour
         arduino = FindObjectOfType<ArduinoConnection>();
         playing = false;
 
-        text = FindObjectOfType<TMP_Text>();
         StartCoroutine(Countdown());
     }
 
