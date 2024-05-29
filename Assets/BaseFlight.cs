@@ -40,8 +40,7 @@ public class BaseFlight : MonoBehaviour
         finalRot.z = Mathf.Cos(xRot * Mathf.Deg2Rad);
         
         transform.forward = Vector3.Lerp(finalRot.normalized, transform.forward, 0.80f);
-        rb.velocity = transform.forward * planeSpeed * Time.deltaTime;
-
+        rb.velocity = transform.forward * planeSpeed;
     }
 
     IEnumerator Countdown()
@@ -60,6 +59,8 @@ public class BaseFlight : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        playing = false;
+        Destroy(rb);
         StartCoroutine(Restart());
     }
 

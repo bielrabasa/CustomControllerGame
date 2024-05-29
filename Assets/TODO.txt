@@ -1,0 +1,12 @@
+_______THINGS TODO_________
+
+__BIEL________
+- Gir (en 2 direccions)
+- Return to map
+- City floor
+
+
+__ROGER_______
+- Check Giroscopi
+- Connectar Vibrador Arduino
+- Utilitzar vibrador Unity
