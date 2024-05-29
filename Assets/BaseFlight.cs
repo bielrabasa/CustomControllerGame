@@ -16,6 +16,8 @@ public class BaseFlight : MonoBehaviour
     public TMP_Text text;
     bool playing = false;
 
+    Coroutine roll;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,7 +27,6 @@ public class BaseFlight : MonoBehaviour
 
         StartCoroutine(Countdown());
     }
-
 
     void Update()
     {
@@ -41,6 +42,41 @@ public class BaseFlight : MonoBehaviour
         
         transform.forward = Vector3.Lerp(finalRot.normalized, transform.forward, 0.80f);
         rb.velocity = transform.forward * planeSpeed;
+
+        //Roll
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            bool right = true;
+            Debug.Log(child.localEulerAngles); //TODO: Values for right/left not correct
+            if(child.localEulerAngles.z < 0) right = false;
+            roll = StartCoroutine(Roll(right));
+        }
+    }
+
+    IEnumerator Roll(bool right)
+    {
+        playing = false;
+        float totalRoll = 360f;
+        float totalSide = 10f; //Real roll = totalSide / 2 +-
+
+        while(totalRoll > 0f)
+        {
+            float toRotate = 700f * Time.deltaTime;
+            totalRoll -= toRotate;
+            transform.Translate((right ? transform.right : -transform.right) * totalSide * Time.deltaTime);
+            child.Rotate((right ? Vector3.back : Vector3.forward) * toRotate);
+            yield return null;
+        }
+
+        playing = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        playing = false;
+        Destroy(rb);
+        StopCoroutine(roll);
+        StartCoroutine(Restart());
     }
 
     IEnumerator Countdown()
@@ -55,13 +91,6 @@ public class BaseFlight : MonoBehaviour
         playing = true;
         yield return new WaitForSeconds(1);
         text.text = "";
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        playing = false;
-        Destroy(rb);
-        StartCoroutine(Restart());
     }
 
     IEnumerator Restart()
