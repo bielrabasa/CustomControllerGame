@@ -31,6 +31,8 @@ public class ArduinoConnection : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.V)) checkVibration();
+
         if (isStreaming) return;
 
         acceleration = Vector3.forward;
@@ -118,5 +120,12 @@ public class ArduinoConnection : MonoBehaviour
                 }
             }
         }
+    }
+
+    void checkVibration()
+    {
+        bool vibration = true;
+
+        sp.WriteLine("V" + (vibration ? "1" : "0" ));
     }
 }

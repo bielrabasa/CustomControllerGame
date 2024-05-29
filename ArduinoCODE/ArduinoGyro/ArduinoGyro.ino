@@ -6,6 +6,10 @@
 // Declarar Sensor
 MPU6050 sensor;
 
+//VibrationMotor: https://youtu.be/5wUxBjpXzL8
+int vibOutPin = 2;
+int incomingByte[2];
+
 // Valores RAW (sin procesar) del acelerometro y giroscopio en los ejes x,y,z
 int ax, ay, az;
 int gx, gy, gz;
@@ -36,11 +40,17 @@ void setup() {
   else Serial.println("Error al iniciar el sensor");
 
   //SetCalibration();
+
+  pinMode(vibOutPin, OUTPUT);
+  digitalWrite(vibOutPin, LOW);
+
 }
 
 void loop() {
   ReadAccVelAngular();
   //Calibration();
+
+  ReadVibration();
 
   delay(100);
 }
@@ -149,4 +159,41 @@ void Calibration()
     counter=0;
   }
   counter++;
+}
+
+void ReadVibration()
+{
+  if(Serial.available() > 0)
+  {
+    while(Serial.peek() == 'V')
+    {
+      Serial.read();
+      incomingByte[0] = Serial.parseInt();
+      if(incomingByte[0] == 1)
+      {
+        VibrationTest();
+      }
+    }
+    while(Serial.available() > 0)
+    {
+      Serial.read();
+    }
+  }
+}
+
+void VibrationTest()
+{
+  digitalWrite(vibOutPin, HIGH);
+  delay(2000);
+
+  digitalWrite(vibOutPin, LOW);
+  delay(600);
+
+  digitalWrite(vibOutPin, HIGH);
+  delay(2000);
+
+  digitalWrite(vibOutPin, LOW);
+  delay(600);
+
+  delay(5000);
 }
