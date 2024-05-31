@@ -47,8 +47,8 @@ public class BaseFlight : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             bool right = true;
-            Debug.Log(child.localEulerAngles); //TODO: Values for right/left not correct
-            if(child.localEulerAngles.z < 0) right = false;
+            Debug.Log(child.localEulerAngles.z); //TODO: Values for right/left not correct
+            if(child.localEulerAngles.z < 180) right = false;
             roll = StartCoroutine(Roll(right));
         }
     }
@@ -63,7 +63,7 @@ public class BaseFlight : MonoBehaviour
         {
             float toRotate = 700f * Time.deltaTime;
             totalRoll -= toRotate;
-            transform.Translate((right ? transform.right : -transform.right) * totalSide * Time.deltaTime);
+            transform.Translate((right ? Vector3.right : Vector3.left) * totalSide * Time.deltaTime);
             child.Rotate((right ? Vector3.back : Vector3.forward) * toRotate);
             yield return null;
         }
