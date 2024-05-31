@@ -108,6 +108,8 @@ public class BaseFlight : MonoBehaviour
     void Die()
     {
         playing = false;
+        GetComponent<ParticleSystem>().Play();
+
         Destroy(rb);
         if (roll != null) StopCoroutine(roll);
         StartCoroutine(Restart());
