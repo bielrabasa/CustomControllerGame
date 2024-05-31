@@ -46,10 +46,7 @@ public class BaseFlight : MonoBehaviour
         //Roll
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            bool right = true;
-            Debug.Log(child.localEulerAngles.z); //TODO: Values for right/left not correct
-            if(child.localEulerAngles.z < 180) right = false;
-            roll = StartCoroutine(Roll(right));
+            roll = StartCoroutine(Roll(child.localEulerAngles.z > 180));
         }
     }
 

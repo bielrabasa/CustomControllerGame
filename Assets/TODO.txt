@@ -1,7 +1,6 @@
 _______THINGS TODO_________
 
 __BIEL________
-- Roll (en 2 direccions)
 - Return to map
 - City floor
 
