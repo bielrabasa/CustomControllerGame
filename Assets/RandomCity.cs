@@ -19,10 +19,8 @@ public class RandomCity : MonoBehaviour
     void Start()
     {
         float totalSize = size * buildingSeparation;
-        GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        floor.transform.localScale = new Vector3(totalSize, 1, totalSize) / 10f;
+        Transform floor = transform.GetChild(0);
         floor.transform.localPosition = new Vector3((totalSize - buildingSeparation) / 2f, 0, (totalSize - buildingSeparation) / 2f);
-        floor.transform.parent = transform;
         
         for (int i = 0; i < size; i++)
         {

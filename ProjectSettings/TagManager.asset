@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Building
   - Score
+  - Map
   layers:
   - Default
   - TransparentFX

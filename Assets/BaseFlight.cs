@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,7 @@ public class BaseFlight : MonoBehaviour
     bool playing = false;
 
     Coroutine roll;
+    Coroutine exit;
 
     void Start()
     {
@@ -70,9 +72,44 @@ public class BaseFlight : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Die();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Map"))
+        {
+            exit = StartCoroutine(MapExit());
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (exit != null && other.CompareTag("Map"))
+        {
+            StopCoroutine(exit);
+            text.text = "";
+        }
+    }
+
+    IEnumerator MapExit(){
+        text.text = "Return to map!";
+        yield return new WaitForSeconds(2);
+
+        for (int i = 5; i > 0; i--)
+        {
+            text.text = i.ToString();
+            yield return new WaitForSeconds(1);
+        }
+        text.text = "";
+        Die();
+    }
+
+    void Die()
+    {
         playing = false;
         Destroy(rb);
-        StopCoroutine(roll);
+        if (roll != null) StopCoroutine(roll);
         StartCoroutine(Restart());
     }
 
