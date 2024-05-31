@@ -15,6 +15,7 @@ public class ArduinoConnection : MonoBehaviour
     //To Read info from sensor
     [HideInInspector] public Vector3 acceleration = Vector3.forward;
     [HideInInspector] public Vector3 rotation;
+    [HideInInspector] public Vector3 lastRotation;
 
     private void Start()
     {
@@ -32,6 +33,8 @@ public class ArduinoConnection : MonoBehaviour
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.V)) checkVibration();
+
+        if(Mathf.Abs(rotation.z - lastRotation.z) > 1.5f) Debug.Log("flip");
 
         if (isStreaming) return;
 
@@ -115,8 +118,8 @@ public class ArduinoConnection : MonoBehaviour
 
                 if (d[4] == "Rotation")
                 {
+                    lastRotation = rotation;;
                     rotation = new Vector3(float.Parse(d[5]), float.Parse(d[6]), float.Parse(d[7])).normalized;
-                    Debug.Log(rotation);
                 }
             }
         }
