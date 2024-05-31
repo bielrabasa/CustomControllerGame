@@ -44,12 +44,12 @@ public class BaseFlight : MonoBehaviour
         
         transform.forward = Vector3.Lerp(finalRot.normalized, transform.forward, 0.80f);
         rb.velocity = transform.forward * planeSpeed;
+    }
 
-        //Roll
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            roll = StartCoroutine(Roll(child.localEulerAngles.z > 180));
-        }
+    public void RollPrepare()
+    {
+        if (!playing) return;
+        roll = StartCoroutine(Roll(child.localEulerAngles.z > 180));
     }
 
     IEnumerator Roll(bool right)

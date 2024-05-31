@@ -34,7 +34,7 @@ public class ArduinoConnection : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.V)) checkVibration();
 
-        if(Mathf.Abs(rotation.z - lastRotation.z) > 1.5f) Debug.Log("flip");
+        if (Mathf.Abs(rotation.z - lastRotation.z) > 1.5f) FindObjectOfType<BaseFlight>().RollPrepare();
 
         if (isStreaming) return;
 
