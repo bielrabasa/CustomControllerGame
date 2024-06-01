@@ -110,6 +110,8 @@ public class BaseFlight : MonoBehaviour
         playing = false;
         GetComponent<ParticleSystem>().Play();
 
+        arduino.checkVibration("V");
+
         Destroy(rb);
         if (roll != null) StopCoroutine(roll);
         StartCoroutine(Restart());

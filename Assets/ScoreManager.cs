@@ -5,11 +5,15 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    ArduinoConnection arduino;
+
     int value;
+
     // Start is called before the first frame update
     void Start()
     {
         InitScore();
+        arduino = FindObjectOfType<ArduinoConnection>();
     }
 
     // Update is called once per frame
@@ -49,6 +53,7 @@ public class ScoreManager : MonoBehaviour
     void SetScore()
     {
         transform.parent.GetComponent<Score>().AddScore(value);
+        arduino.checkVibration("W");
         SetPosition();
     }
 }

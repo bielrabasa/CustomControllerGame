@@ -32,8 +32,6 @@ public class ArduinoConnection : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.V)) checkVibration();
-
         if (Mathf.Abs(rotation.z - lastRotation.z) > 1.5f) FindObjectOfType<BaseFlight>().RollPrepare();
 
         if (isStreaming) return;
@@ -125,10 +123,10 @@ public class ArduinoConnection : MonoBehaviour
         }
     }
 
-    void checkVibration()
+    public void checkVibration(string preFix)
     {
         bool vibration = true;
 
-        sp.WriteLine("V" + (vibration ? "1" : "0" ));
+        sp.WriteLine(preFix + (vibration ? "1" : "0" ));
     }
 }

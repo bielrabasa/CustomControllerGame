@@ -171,7 +171,16 @@ void ReadVibration()
       incomingByte[0] = Serial.parseInt();
       if(incomingByte[0] == 1)
       {
-        VibrationTest();
+        VibrationTest(2000);
+      }
+    }
+    while(Serial.peek() == 'W')
+    {
+      Serial.read();
+      incomingByte[0] = Serial.parseInt();
+      if(incomingByte[0] == 1)
+      {
+        VibrationTest(200);
       }
     }
     while(Serial.available() > 0)
@@ -181,19 +190,12 @@ void ReadVibration()
   }
 }
 
-void VibrationTest()
+void VibrationTest(int time)
 {
-  digitalWrite(vibOutPin, HIGH);
-  delay(2000);
+  digitalWrite(vibOutPin, 1);
+  delay(time);
 
-  digitalWrite(vibOutPin, LOW);
-  delay(600);
+  digitalWrite(vibOutPin, 0);
 
-  digitalWrite(vibOutPin, HIGH);
-  delay(2000);
-
-  digitalWrite(vibOutPin, LOW);
-  delay(600);
-
-  delay(5000);
+  delay(1000);
 }
