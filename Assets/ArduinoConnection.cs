@@ -3,10 +3,14 @@ using System.IO.Ports;
 using System;
 using UnityEditor.Experimental.GraphView;
 using System.Threading;
+using JetBrains.Annotations;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ArduinoConnection : MonoBehaviour
 {
-    public string port;
+    string port;
+
     SerialPort sp;
     bool isStreaming = false;
 
@@ -19,8 +23,20 @@ public class ArduinoConnection : MonoBehaviour
 
     private void Start()
     {
+        DontDestroyOnLoad(gameObject);
+        if(FindObjectsOfType<ArduinoConnection>().Length > 1) Destroy(gameObject);
+    }
+
+    public void SetPayload()
+    {
+        port = FindObjectOfType<TMP_InputField>().text;
+        StartConnection();
+    }
+
+    private void StartConnection()
+    {
         sp = new SerialPort(port, 9600);
-        
+
         OpenConnection();
 
         if (isStreaming)
@@ -28,13 +44,24 @@ public class ArduinoConnection : MonoBehaviour
             readingThread = new Thread(ContinuousReading);
             readingThread.Start();
         }
+
+        SceneManager.LoadScene("MainScene");
     }
 
     private void Update()
     {
-        if (Mathf.Abs(rotation.z - lastRotation.z) > 1.5f) FindObjectOfType<BaseFlight>().RollPrepare();
+        if (isStreaming)
+        {
+            if (Mathf.Abs(rotation.z - lastRotation.z) > 1.5f) FindObjectOfType<BaseFlight>()?.RollPrepare();
+            return;
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && SceneManager.GetActiveScene().name == "IntroScreen") 
+        {
+            SetPayload();
+            return;
+        }
 
-        if (isStreaming) return;
+        if (Input.GetKeyDown(KeyCode.Space)) FindObjectOfType<BaseFlight>()?.RollPrepare();
 
         acceleration = Vector3.forward;
         if (Input.GetKey(KeyCode.RightArrow)) acceleration.x--;
@@ -66,7 +93,7 @@ public class ArduinoConnection : MonoBehaviour
 
     void CloseConnection()
     {
-        sp.Close();
+        if(sp != null) sp.Close();
     }
 
     string ReadSerialPort()

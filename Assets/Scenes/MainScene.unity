@@ -6188,3 +6188,4 @@ MonoBehaviour:
   port: COM6
   acceleration: {x: 0, y: 0, z: 1}
   rotation: {x: 0, y: 0, z: 0}
+  lastRotation: {x: 0, y: 0, z: 0}
