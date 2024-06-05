@@ -129,22 +129,23 @@ public class ArduinoConnection : MonoBehaviour
                 Debug.Log("Thread stopped!");
                 isStreaming = false;
             }
-            
+
             //Parse data to acc vector
             if(data != null)
             {
                 string[] d = data.Split(',');
-                if (d.Length != 8) continue;
+                if (d.Length != 4) continue;
 
                 if (d[0] == "Acceleration")
                 {
+                    Debug.Log("AccParse");
                     acceleration = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
                 }
 
-                if (d[4] == "Rotation")
+                if (d[0] == "Rotation")
                 {
                     lastRotation = rotation;;
-                    rotation = new Vector3(float.Parse(d[5]), float.Parse(d[6]), float.Parse(d[7])).normalized;
+                    rotation = new Vector3(float.Parse(d[1]), float.Parse(d[2]), float.Parse(d[3])).normalized;
                 }
             }
         }
@@ -152,6 +153,8 @@ public class ArduinoConnection : MonoBehaviour
 
     public void checkVibration(string preFix)
     {
+        if (!isStreaming) return;
+
         bool vibration = true;
 
         sp.WriteLine(preFix + (vibration ? "1" : "0" ));

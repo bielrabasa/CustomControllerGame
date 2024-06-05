@@ -35,6 +35,7 @@ public class BaseFlight : MonoBehaviour
         if (!playing) return;
 
         Vector3 finalRot = arduino.acceleration;
+        
         xRot -= finalRot.x * rotSpeed * Time.deltaTime;
 
         child.localEulerAngles = new Vector3(0, 0, finalRot.x * 90);
@@ -54,6 +55,7 @@ public class BaseFlight : MonoBehaviour
 
     IEnumerator Roll(bool right)
     {
+        Debug.Log("ROLL");
         playing = false;
         float totalRoll = 360f;
         float totalSide = 10f; //Real roll = totalSide / 2 +-

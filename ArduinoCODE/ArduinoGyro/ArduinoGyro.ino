@@ -197,5 +197,5 @@ void VibrationTest(int time)
 
   digitalWrite(vibOutPin, 0);
 
-  delay(1000);
+  delay(50);
 }
